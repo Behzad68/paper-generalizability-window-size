@@ -1,3 +1,4 @@
 *.swp
 .idea
 .DS_Store
+/Figures/.pytest_cache/

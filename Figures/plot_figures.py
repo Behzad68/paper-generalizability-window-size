@@ -153,7 +153,7 @@ def plot_results_per_activity():
         return df
 
     def plot_per_activity(model, dataset, fs='FS3', cv='sbj'):
-        result_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Dataset 1/results')
+        result_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '{}/results'.format(dataset))
 
         overlap_path = os.path.join(result_path, 'overlap', fs, cv, model)
         non_overlap_path = os.path.join(result_path, 'nonoverlap', fs, cv, model)
@@ -185,12 +185,12 @@ def plot_results_per_activity():
     models = ['KNN', 'DT', 'NB', 'NCC']
 
     for model in models:
-        plot_per_activity(model=model, fs='FS3', cv='sbj', dataset='banos')
-        plot_per_activity(model=model, fs='FS3', cv='sbj', dataset='recofit')
+        plot_per_activity(model=model, fs='FS3', cv='sbj', dataset='Dataset 1')
+        plot_per_activity(model=model, fs='FS3', cv='sbj', dataset='Dataset 2')
     return True
 
 
 def test_plots():
-    assert plot_validation_figures()
-    assert plot_results_global()
+    # assert plot_validation_figures()
+    # assert plot_results_global()
     assert plot_results_per_activity()
