@@ -140,7 +140,41 @@ def plot_results_global():
 
 
 def plot_results_per_activity():
-    def _add_strategy(df_path, stg):
+    dataset1_activities = {'No activity': 0, 'Walking': 1, 'Jogging': 2, 'Running': 3, 'Jump up': 4,
+                           'Jump front and back': 5,
+                           'Jump sideways': 6, 'Jump leg/arms open/closed': 7, 'Jump rope': 8
+        , 'Trunk twist (arms outstretched)': 9,
+                           'Trunk twist (elbows bent)': 10, 'Waist bends forward': 11, 'Waist rotation': 12,
+                           'Waist bends (reach foot with opposite hand)': 13, 'Reach heels backwards': 14
+        , 'Lateral bend': 15, 'Lateral bend with arm up': 16, 'Repetitive forward stretching': 17,
+                           'Upper trunk and lower body opposite twist': 18, 'Lateral elevation of arms': 19,
+                           'Frontal elevation of arms': 20
+        , 'Frontal hand claps': 21, 'Frontal crossing of arms': 22, 'Shoulders high-amplitude rotation': 23,
+                           'Shoulders low-amplitude rotation': 24, 'Arms inner rotation': 25,
+                           'Knees (alternating) to the breast': 26,
+                           'Heels (alternatively) to the backside': 27, 'Knees bending (crouching)': 28,
+                           'Knees (alternating) bending forward': 29, 'Rotation on the knees': 30, 'Rowing': 31,
+                           'Elliptical bike': 32,
+                           'Cycling': 33}
+
+    dataset2_activities = {'Noise': 1, 'Band Pull-Down Row': 2, 'Bicep Curl': 3, 'Box Jump (on bench)': 4, 'Burpee': 5,
+                           'Butterfly sit-up': 6, 'Chest Press': 7, 'Crunch': 8,
+                           'Dip': 9,
+                           'Dumbbell Deadlift Row': 10, 'Dumbbell Row (both)': 11,
+                           'Dumbbell Row (right)': 12, 'Dumbbell Squat (hands at side)': 13, 'Elliptical machine': 14,
+                           'Punches': 15,
+                           'Jump Rope': 16, 'Jumping Jacks': 17, 'Kettlebell Swing': 18, 'Lateral Raise': 19,
+                           'Lawnmower (both)': 20,
+                           'Lawnmower (right)': 21, 'Lunge (both legs)': 22
+        , 'Ball Slam': 23, 'Triceps Extension (standing - both)': 24, 'Plank': 25,
+                           'Power Boat pose': 26, 'Pushups': 27, 'Rowing machine': 28, 'Running': 29,
+                           'Russian Twist': 30
+        , 'Seated Back Fly': 31, 'Shoulder Press': 32, 'Squat': 33, 'Triceps Kickback': 34,
+                           'Triceps extension (lying)': 35,
+                           'Dumbbell Curl': 36, 'V-up': 37, 'Walk': 38, 'Walking lunge': 39, 'Wall Ball': 40,
+                           'Wall Squat': 41}
+
+    def _add_strategy(df_path, stg, activities):
         win_size = os.path.splitext(os.path.basename(df_path))[0].split(sep='_')[-1]
         df = pd.read_csv(df_path, skipfooter=3, engine='python')
         df.columns = df.columns.str.strip()
@@ -148,6 +182,7 @@ def plot_results_per_activity():
         df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
         df.columns = ['Activity', 'F1-score']
         df = df[~df['Activity'].isin(['No activity', 'Noise'])]
+        df['Activity'] = df['Activity'].map(activities)
         df['strategy'] = stg
         df['win_size'] = float(win_size)
         return df
@@ -160,9 +195,11 @@ def plot_results_per_activity():
 
         results_O = glob.glob(os.path.join(overlap_path, '*.csv'))
         results_NO = glob.glob(os.path.join(non_overlap_path, '*.csv'))
-
-        dfs_O = list(map(lambda path: _add_strategy(path, 'O'), results_O))
-        dfs_NO = list(map(lambda path: _add_strategy(path, 'NO'), results_NO))
+        activities = dataset1_activities
+        if dataset == 'Dataset 2':
+            activities = dataset2_activities
+        dfs_O = list(map(lambda path: _add_strategy(path, 'O', activities), results_O))
+        dfs_NO = list(map(lambda path: _add_strategy(path, 'NO', activities), results_NO))
 
         mix_df = reduce(lambda left, right: pd.concat([left, right], axis=0), [*dfs_NO, *dfs_O])
         mix_df.sort_values(by=['Activity', 'win_size'], inplace=True)
@@ -176,7 +213,7 @@ def plot_results_per_activity():
 
         ax.set_ylim(0, 1)
         sns.despine(left=True)
-        ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+        # ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
         plt.legend(loc='center left', bbox_to_anchor=(1, 1))
         path_to_save = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Figures',
                                     'per_activity_{}_{}_{}_{}.png'.format(dataset, model, dataset, cv, fs))
@@ -192,5 +229,5 @@ def plot_results_per_activity():
 
 def test_plots():
     # assert plot_validation_figures()
-    # assert plot_results_global()
+    assert plot_results_global()
     assert plot_results_per_activity()
