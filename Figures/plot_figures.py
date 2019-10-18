@@ -10,6 +10,13 @@ from matplotlib.patches import Patch
 from sklearn.model_selection import (LeaveOneGroupOut, ShuffleSplit)
 
 sns.set(style="whitegrid", palette="pastel", color_codes=True)
+plt.rc('xtick', labelsize=15)
+plt.rc('axes', labelsize=15)
+plt.rc('axes', labelweight='bold')
+
+plt.rcParams['font.weight'] = 'bold'
+plt.rcParams['figure.figsize'] = (15, 10)
+plt.rc('ytick', labelsize=15)
 np.random.seed(1)
 
 
@@ -123,6 +130,8 @@ def plot_results_global():
                                 palette="Set2", hue_order=["NO", 'O'], scale='width',
                                 data=mix_df, inner=None)
             ax.set(ylim=(0, 1))
+            plt.legend()
+
             path_to_save = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Figures',
                                         '{}_{}_{}.png'.format(dataset, cv_type, fs))
             plt.savefig(path_to_save, format='png')
@@ -132,10 +141,10 @@ def plot_results_global():
     result_path_dataset2 = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Dataset 2/results')
 
     for cv in ['iid', 'sbj']:
-        plot_results(result_path=result_path_dataset1, cv_type=cv, dataset='banos')
-        plot_results(result_path=result_path_dataset1, cv_type=cv, dataset='banos')
-        plot_results(result_path=result_path_dataset2, cv_type=cv, dataset='recofit')
-        plot_results(result_path=result_path_dataset2, cv_type=cv, dataset='recofit')
+        plot_results(result_path=result_path_dataset1, cv_type=cv, dataset='Dataset 1')
+        plot_results(result_path=result_path_dataset1, cv_type=cv, dataset='Dataset 1')
+        plot_results(result_path=result_path_dataset2, cv_type=cv, dataset='Dataset 2')
+        plot_results(result_path=result_path_dataset2, cv_type=cv, dataset='Dataset 2')
     return True
 
 
@@ -210,10 +219,8 @@ def plot_results_per_activity():
                             split=True, inner=None, scale='width',
                             palette="Set2",
                             data=mix_df)
-
         ax.set_ylim(0, 1)
         sns.despine(left=True)
-        # ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
         plt.legend(loc='center left', bbox_to_anchor=(1, 1))
         path_to_save = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Figures',
                                     'per_activity_{}_{}_{}_{}.png'.format(dataset, model, dataset, cv, fs))
@@ -228,6 +235,6 @@ def plot_results_per_activity():
 
 
 def test_plots():
-    # assert plot_validation_figures()
+    assert plot_validation_figures()
     assert plot_results_global()
     assert plot_results_per_activity()
