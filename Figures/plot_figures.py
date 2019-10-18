@@ -16,6 +16,7 @@ plt.rc('axes', labelweight='bold')
 
 plt.rcParams['font.weight'] = 'bold'
 plt.rcParams['figure.figsize'] = (15, 10)
+plt.rcParams['savefig.bbox'] = 'tight'
 plt.rc('ytick', labelsize=15)
 np.random.seed(1)
 
@@ -134,7 +135,7 @@ def plot_results_global():
 
             path_to_save = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Figures',
                                         '{}_{}_{}.png'.format(dataset, cv_type, fs))
-            plt.savefig(path_to_save, format='png', bbox_inches='tight')
+            plt.savefig(path_to_save, format='png')
             plt.close()
 
     result_path_dataset1 = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Dataset1/results')
@@ -224,7 +225,7 @@ def plot_results_per_activity():
         plt.legend(loc='center left', bbox_to_anchor=(1, 1))
         path_to_save = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Figures',
                                     'per_activity_{}_{}_{}_{}.png'.format(dataset, model, dataset, cv, fs))
-        plt.savefig(path_to_save, bbox_inches='tight', format='png')
+        plt.savefig(path_to_save, format='png')
 
     models = ['KNN', 'DT', 'NB', 'NCC']
 
