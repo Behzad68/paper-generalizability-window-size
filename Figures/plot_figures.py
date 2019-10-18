@@ -85,7 +85,7 @@ def plot_validation_figures():
 
             plt.savefig('{}/{}.png'.format(output_folder, fig_name))
 
-    dataset = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Dataset 1', 'processed_dataset', 'overlap',
+    dataset = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Dataset1', 'processed_dataset', 'overlap',
                            'FS1',
                            'dataset0.5.csv')
     plot_cv(dataset=dataset, CVs=[LeaveOneGroupOut, ShuffleSplit], n_splits=10)
@@ -137,14 +137,14 @@ def plot_results_global():
             plt.savefig(path_to_save, format='png', bbox_inches='tight')
             plt.close()
 
-    result_path_dataset1 = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Dataset 1/results')
-    result_path_dataset2 = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Dataset 2/results')
+    result_path_dataset1 = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Dataset1/results')
+    result_path_dataset2 = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Dataset2/results')
 
     for cv in ['iid', 'sbj']:
-        plot_results(result_path=result_path_dataset1, cv_type=cv, dataset='Dataset 1')
-        plot_results(result_path=result_path_dataset1, cv_type=cv, dataset='Dataset 1')
-        plot_results(result_path=result_path_dataset2, cv_type=cv, dataset='Dataset 2')
-        plot_results(result_path=result_path_dataset2, cv_type=cv, dataset='Dataset 2')
+        plot_results(result_path=result_path_dataset1, cv_type=cv, dataset='Dataset1')
+        plot_results(result_path=result_path_dataset1, cv_type=cv, dataset='Dataset1')
+        plot_results(result_path=result_path_dataset2, cv_type=cv, dataset='Dataset2')
+        plot_results(result_path=result_path_dataset2, cv_type=cv, dataset='Dataset2')
     return True
 
 
@@ -205,7 +205,7 @@ def plot_results_per_activity():
         results_O = glob.glob(os.path.join(overlap_path, '*.csv'))
         results_NO = glob.glob(os.path.join(non_overlap_path, '*.csv'))
         activities = dataset1_activities
-        if dataset == 'Dataset 2':
+        if dataset == 'Dataset2':
             activities = dataset2_activities
         dfs_O = list(map(lambda path: _add_strategy(path, 'O', activities), results_O))
         dfs_NO = list(map(lambda path: _add_strategy(path, 'NO', activities), results_NO))
@@ -229,8 +229,8 @@ def plot_results_per_activity():
     models = ['KNN', 'DT', 'NB', 'NCC']
 
     for model in models:
-        plot_per_activity(model=model, fs='FS3', cv='sbj', dataset='Dataset 1')
-        plot_per_activity(model=model, fs='FS3', cv='sbj', dataset='Dataset 2')
+        plot_per_activity(model=model, fs='FS3', cv='sbj', dataset='Dataset1')
+        plot_per_activity(model=model, fs='FS3', cv='sbj', dataset='Dataset2')
     return True
 
 
