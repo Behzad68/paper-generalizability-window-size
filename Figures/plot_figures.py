@@ -134,7 +134,7 @@ def plot_results_global():
 
             path_to_save = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Figures',
                                         '{}_{}_{}.png'.format(dataset, cv_type, fs))
-            plt.savefig(path_to_save, format='png')
+            plt.savefig(path_to_save, format='png', bbox_inches='tight')
             plt.close()
 
     result_path_dataset1 = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Dataset 1/results')
@@ -234,7 +234,7 @@ def plot_results_per_activity():
     return True
 
 
-def test_plots():
-    assert plot_validation_figures()
+def test_plot_figures():
+    # assert plot_validation_figures()
     assert plot_results_global()
     assert plot_results_per_activity()
