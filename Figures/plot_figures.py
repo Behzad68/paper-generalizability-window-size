@@ -224,7 +224,7 @@ def plot_results_per_activity():
         sns.despine(left=True)
         plt.legend(loc='center left', bbox_to_anchor=(1, 1))
         path_to_save = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'Figures',
-                                    'per_activity_{}_{}_{}_{}.png'.format(dataset, model, dataset, cv, fs))
+                                    'per_activity_{}_{}_{}_{}.png'.format(dataset, model, cv, fs))
         plt.savefig(path_to_save, format='png')
 
     models = ['KNN', 'DT', 'NB', 'NCC']
@@ -237,5 +237,5 @@ def plot_results_per_activity():
 
 def test_plot_figures():
     # assert plot_validation_figures()
-    assert plot_results_global()
+    # assert plot_results_global()
     assert plot_results_per_activity()
