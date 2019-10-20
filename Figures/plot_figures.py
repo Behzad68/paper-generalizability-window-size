@@ -236,6 +236,6 @@ def plot_results_per_activity():
 
 
 def test_plot_figures():
-    # assert plot_validation_figures()
-    # assert plot_results_global()
+    assert plot_validation_figures()
+    assert plot_results_global()
     assert plot_results_per_activity()
